@@ -8,17 +8,20 @@ using namespace std;
 using namespace Napi;
 
 static Promise RegisterSource(const CallbackInfo& info){
-    RegisterMock reg(info.Env());
+    auto env = info.Env();
+    RegisterMock reg(env);
     return reg.GetPromise();
 }
 
 static Promise FindSimilarAudioFromFile(const CallbackInfo& info){
-    FindSimilarAudioMock findAudio(info.Env());
+    auto env = info.Env();
+    FindSimilarAudioMock findAudio(env);
     return findAudio.GetPromise();
 }
 
 static Promise FindSimilarAudioFromNode(const CallbackInfo& info){
-    FindSimilarAudioMock findAudio(info.Env());
+    auto env = info.Env();
+    FindSimilarAudioMock findAudio(env);
     return findAudio.GetPromise();
 }
 
