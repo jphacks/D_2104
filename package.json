@@ -4,7 +4,9 @@
     "description": "[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2021/07/JPHACKS2021_ogp.jpg)](https://www.youtube.com/watch?v=LUPQFB4QyVo)",
     "main": "main.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "electron .",
+        "install": "cmake-js compile"
     },
     "repository": {
         "type": "git",

@@ -28,7 +28,7 @@ class FindSimilarAudioMock{
         }
     public:
         FindSimilarAudioMock(Napi::Env& env) : deferred(Napi::Promise::Deferred::New(env)){
-           thread t([&env, this](){this->Run(env);});
+           std::thread t([&env, this](){this->Run(env);});
         }
         Napi::Promise GetPromise() { return deferred.Promise(); }
 };
