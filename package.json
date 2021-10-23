@@ -1,27 +1,27 @@
 {
-  "name": "d_2104",
-  "version": "1.0.0",
-  "description": "[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2021/07/JPHACKS2021_ogp.jpg)](https://www.youtube.com/watch?v=LUPQFB4QyVo)",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jphacks/D_2104.git"
-  },
-  "author": "",
-  "license": "BSD-3-Clause",
-  "bugs": {
-    "url": "https://github.com/jphacks/D_2104/issues"
-  },
-  "homepage": "https://github.com/jphacks/D_2104#readme",
-  "dependencies": {
-    "bindings": "^1.5.0",
-    "cmake-js": "^6.2.1",
-    "node-addon-api": "^4.2.0"
-  },
-  "devDependencies": {
-    "electron": "^15.3.0"
-  }
+    "name": "visualize-sounds-core",
+    "version": "1.0.0",
+    "description": "[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2021/07/JPHACKS2021_ogp.jpg)](https://www.youtube.com/watch?v=LUPQFB4QyVo)",
+    "main": "main.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jphacks/D_2104.git"
+    },
+    "author": "",
+    "license": "BSD-3-Clause",
+    "bugs": {
+        "url": "https://github.com/jphacks/D_2104/issues"
+    },
+    "homepage": "https://github.com/jphacks/D_2104#readme",
+    "dependencies": {
+        "bindings": "^1.5.0",
+        "cmake-js": "^6.2.1",
+        "node-addon-api": "^4.2.0"
+    },
+    "devDependencies": {
+        "electron": "^15.3.0"
+    }
 }
