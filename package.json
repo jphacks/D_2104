@@ -26,7 +26,6 @@
     "bugs": {
         "url": "https://github.com/jphacks/D_2104/issues"
     },
-    "homepage": "https://github.com/jphacks/D_2104#readme",
     "dependencies": {
         "bindings": "^1.5.0",
         "cmake-js": "^6.2.1",
