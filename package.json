@@ -2,11 +2,20 @@
     "name": "visualize-sounds-core",
     "version": "1.0.0",
     "description": "[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2021/07/JPHACKS2021_ogp.jpg)](https://www.youtube.com/watch?v=LUPQFB4QyVo)",
-    "main": "main.js",
+    "main": "src/electron-starter.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "electron .",
-        "install": "cmake-js compile"
+        "react:start": "react-scripts start",
+        "react:build": "react-scripts build",
+        "react:test": "react-scripts test",
+        "react:eject": "react-scripts eject",
+        "electron:test": "echo \"Error: no test specified\" && exit 1",
+        "electron:start": "electron ."
+    },
+    "eslintConfig": {
+      "extends": [
+        "react-app",
+        "react-app/jest"
+      ]
     },
     "repository": {
         "type": "git",
@@ -21,7 +30,26 @@
     "dependencies": {
         "bindings": "^1.5.0",
         "cmake-js": "^6.2.1",
-        "node-addon-api": "^4.2.0"
+        "node-addon-api": "^4.2.0",
+        "@testing-library/jest-dom": "^5.11.4",
+        "@testing-library/react": "^11.1.0",
+        "@testing-library/user-event": "^12.1.10",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-scripts": "4.0.3",
+        "web-vitals": "^1.0.1"
+    },
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+      ],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
     },
     "devDependencies": {
         "electron": "^15.3.0"
