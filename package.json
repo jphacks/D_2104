@@ -9,7 +9,7 @@
         "react:test": "react-scripts test",
         "react:eject": "react-scripts eject",
         "electron:test": "echo \"Error: no test specified\" && exit 1",
-        "electron:start": "electron ."
+        "electron:start": "electron .",
         "mocha:test": "mocha ./tests",
         "cmake:compile": "cmake-js compile"
     },
