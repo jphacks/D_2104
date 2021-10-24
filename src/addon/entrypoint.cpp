@@ -9,20 +9,26 @@ using namespace Napi;
 
 static Promise RegisterSource(const CallbackInfo& info){
     auto env = info.Env();
-    RegisterMock reg(env);
-    return reg.GetPromise();
+    RegisterMock* reg = new RegisterMock(env);
+    auto promise = reg->GetPromise();
+    reg->Queue();
+    return promise;
 }
 
 static Promise FindSimilarAudioFromFile(const CallbackInfo& info){
     auto env = info.Env();
-    FindSimilarAudioMock findAudio(env);
-    return findAudio.GetPromise();
+    FindSimilarAudioMock* findAudio = new FindSimilarAudioMock(env);
+    auto promise = findAudio->GetPromise();
+    findAudio->Queue();
+    return promise;
 }
 
 static Promise FindSimilarAudioFromNode(const CallbackInfo& info){
     auto env = info.Env();
-    FindSimilarAudioMock findAudio(env);
-    return findAudio.GetPromise();
+    FindSimilarAudioMock* findAudio = new FindSimilarAudioMock(env);
+    auto promise = findAudio->GetPromise();
+    findAudio->Queue();
+    return promise;
 }
 
 static Object Init(Env env, Object exports)

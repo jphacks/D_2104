@@ -2,33 +2,44 @@
 #include <thread>
 #include <napi.h>
 #include <random>
+#include <vector>
 
-class FindSimilarAudioMock{
+class FindSimilarAudioMock:  public Napi::AsyncWorker{
     private:
         Napi::Promise::Deferred deferred;
-        void Run(Napi::Env& env){
+        std::vector<std::pair<std::string, std::vector<std::pair<int, double>>>> data;
+    public:
+        FindSimilarAudioMock(Napi::Env& env) : Napi::AsyncWorker(env),deferred(Napi::Promise::Deferred::New(env)){}
+        ~FindSimilarAudioMock(){}
+        void Execute() override{
             std::this_thread::sleep_for(std::chrono::seconds(3));
-            auto ret  = Napi::Array::New(env, 100);
             double distance = 0;
             std::random_device r;
             std::uniform_real_distribution<> dist(0.5, 1.0);
             std::string prefix = "C:/dummy/";
             for(auto i = 1; i < 101; ++i){
-                auto val = Napi::Object::New(env);
+                std::vector<std::pair<int, double>> d;
                 distance += dist(r);
-                auto vec = Napi::Array::New(env, 1);
-                auto element = Napi::Object::New(env);
-                element.Set(uint32_t(i), Napi::Number::New(env, distance));
-                vec.Set(uint32_t(0), element);
-                val.Set("features", vec);
-                val.Set("path", prefix + std::to_string(i) + ".wav");
-                ret[i - 1] = val;
+                d.emplace_back(i, distance);
+                data.emplace_back(prefix + std::to_string(i) + ".wav", d);
+            }
+        }
+        void OnOK() override{
+            auto ret = Napi::Array::New(Env(), data.size());
+            for(auto i = 0; i < data.size(); ++i){
+                auto obj = Napi::Object::New(Env());
+                obj.Set("path", data[i].first);
+                auto vec = Napi::Array::New(Env(), data[i].second.size());
+                for(auto  j = 0; j < data[i].second.size(); ++j){
+                    auto element = Napi::Object::New(Env());
+                    element.Set(uint32_t(data[i].second[j].first), Napi::Number::New(Env(), data[i].second[j].second));
+                    vec[j] = element;
+                }
+                obj.Set("feature", vec);
+                ret[i] = obj;
             }
             deferred.Resolve(ret);
-        }
-    public:
-        FindSimilarAudioMock(Napi::Env& env) : deferred(Napi::Promise::Deferred::New(env)){
-           std::thread t([&env, this](){this->Run(env);});
-        }
+            }
+        void OnError(Napi::Error const &error){deferred.Reject(error.Value());}
         Napi::Promise GetPromise() { return deferred.Promise(); }
 };
