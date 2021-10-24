@@ -10,6 +10,8 @@
         "react:eject": "react-scripts eject",
         "electron:test": "echo \"Error: no test specified\" && exit 1",
         "electron:start": "electron ."
+        "mocha:test": "mocha ./tests",
+        "cmake:compile": "cmake-js compile"
     },
     "eslintConfig": {
       "extends": [
@@ -51,6 +53,7 @@
       ]
     },
     "devDependencies": {
-        "electron": "^15.3.0"
+        "electron": "^15.3.0",
+        "mocha": "^9.1.3"
     }
 }
