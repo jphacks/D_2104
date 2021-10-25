@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 
-const Result = () => {
-
+const Result = (props) => {
   return (
     <div>
       <p>結果ページです</p>
