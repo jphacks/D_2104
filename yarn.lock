@@ -8360,6 +8360,13 @@ node-libs-browser@^2.2.1:
     util "^0.11.0"
     vm-browserify "^1.0.1"
 
+node-loader@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/node-loader/-/node-loader-2.0.0.tgz#9109a6d828703fd3e0aa03c1baec12a798071562"
+  integrity sha512-I5VN34NO4/5UYJaUBtkrODPWxbobrE4hgDqPrjB25yPkonFhCmZ146vTH+Zg417E9Iwoh1l/MbRs1apc5J295Q==
+  dependencies:
+    loader-utils "^2.0.0"
+
 node-modules-regexp@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/node-modules-regexp/-/node-modules-regexp-1.0.0.tgz#8d9dbe28964a4ac5712e9131642107c71e90ec40"
@@ -8937,6 +8944,11 @@ pbkdf2@^3.0.3:
     ripemd160 "^2.0.1"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+pca-js@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/pca-js/-/pca-js-1.0.2.tgz#216639c897d731f4d21ff539d5afcb0cec8fc392"
+  integrity sha512-Y6a1RQ/pdNJnJq7ya9PHBW2RUXZCXDbbRpmpwclvuhOo7mttx1f80OKIQ0nPF6kCZ4a98G5TqIfRrIblk7R6Jg==
 
 pend@~1.2.0:
   version "1.2.0"

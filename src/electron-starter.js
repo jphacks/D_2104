@@ -15,8 +15,16 @@ function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({width: 800, height: 600});
 
+    // console.log(process.env.ELECTRON_START_URL)
+    console.log(path.join(__dirname, '/../dist/index.html'));
+    const startUrl = url.format({
+        pathname: path.join(__dirname, '/../dist/index.html'),
+        protocol: 'file:',
+        slashes: true
+    });
+    mainWindow.loadURL(startUrl);
     // and load the index.html of the app.
-    mainWindow.loadURL('http://localhost:3000');
+    // mainWindow.loadURL('http://localhost:3000');
 
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
