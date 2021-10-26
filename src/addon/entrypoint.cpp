@@ -9,7 +9,10 @@ using namespace Napi;
 
 static Promise RegisterSource(const CallbackInfo& info){
     auto env = info.Env();
-    RegisterMock* reg = new RegisterMock(env);
+    string sourcePath = info[0].As<Napi::String>().ToString();
+    string rule = info[1].As<Napi::String>().ToString();
+    string savePath = info[2].As<Napi::String>().ToString();
+    Register* reg = new Register(env, savePath, sourcePath, rule);
     auto promise = reg->GetPromise();
     reg->Queue();
     return promise;
@@ -17,7 +20,12 @@ static Promise RegisterSource(const CallbackInfo& info){
 
 static Promise FindSimilarAudioFromFile(const CallbackInfo& info){
     auto env = info.Env();
-    FindSimilarAudioMock* findAudio = new FindSimilarAudioMock(env);
+    string sourcePath = info[0].As<Napi::String>().ToString();
+    string savePath = info[1].As<Napi::String>().ToString();
+    ExtractFeature extractor(sourcePath);
+    int gc;
+    auto feature = extractor.Extract(gc);
+    FindSimilarAudio* findAudio = new FindSimilarAudio(env, savePath, feature);
     auto promise = findAudio->GetPromise();
     findAudio->Queue();
     return promise;
@@ -25,7 +33,9 @@ static Promise FindSimilarAudioFromFile(const CallbackInfo& info){
 
 static Promise FindSimilarAudioFromNode(const CallbackInfo& info){
     auto env = info.Env();
-    FindSimilarAudioMock* findAudio = new FindSimilarAudioMock(env);
+    auto node = info[0].As<Napi::Object>().Get("dbPath").ToString();
+    auto savePath = info[1].As<Napi::String>().ToString();
+    FindSimilarAudio* findAudio = new FindSimilarAudio(env, savePath, node);
     auto promise = findAudio->GetPromise();
     findAudio->Queue();
     return promise;
