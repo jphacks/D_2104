@@ -4,18 +4,21 @@ import vis from "vis";
 import PCA from 'pca-js';
 import { parseFeature, reduceDimensions } from '../lib/nodesParser';
 
+import Button from "@mui/material/Button";
+
 // 次元の範囲を決め打ち。
 const MAX_DIMENSION = 200;
 
 const addon = window.require("bindings")("Visualize_Sounds_Core_addon.node");
+
 
 const ShowNodeData = ({ nodeData }) => { //nodeの情報を書く
   return (
     <div style={{ color: "#FFFFFF" }}>
       <p>id:{nodeData?.id}</p>
       <p>label:{nodeData?.label}</p>
-      <p>x:{nodeData?.x}</p>
-      <p>y:{nodeData?.y}</p>
+      {/* <p>x:{nodeData?.x}</p>
+      <p>y:{nodeData?.y}</p> */}
       <p>title:{nodeData?.title}</p>
     </div>
   )
@@ -63,6 +66,10 @@ const Result = () => {
   // const data = {
   //   nodes: nodes,
   // };
+  
+  const rootNode = { id: 1, label: 'A', x: 20, y: 180, title: "/asset/music1.wav" };
+  const [clickedNode, setClickedNode] = useState(null);
+
   const options = {
     height: '500px',
     width: '800px',
@@ -72,8 +79,6 @@ const Result = () => {
       minVelocity: 0.1
     }
   };
-
-  const [clickedNode, setClickedNode] = useState(null);
 
   const draw = () => {
     const container = document.getElementById('network');
@@ -90,8 +95,11 @@ const Result = () => {
 
   const openFolder = () => {
     const { shell } = window.require('electron');
-    shell.showItemInFolder("/Users");
-
+    const os = window.require('os');
+    //一旦はどのosでも動くようにhomedirを開く。
+    shell.showItemInFolder(os.homedir());
+    //osによってファイルパスの扱いが違うけど、受け取ったパスをそのまま使って大丈夫そう
+    // shell.showItemInFolder("C:\\Users\\morit\\Pictures\\My Cloud Samples\\sample01.jpg");
   };
 
   // ###########################
@@ -104,16 +112,17 @@ const Result = () => {
     <div style={{ background: "#191E2B" }}>
       <div style={{ display: "flex" }}>
         <div id="network" style={{ background: "#36383F" }}></div>
-        <div>
+        <div style={{ color: "#FFFFFF" }}>
+          <ShowNodeData nodeData={rootNode} />
+          <p>----------------------</p>
           <ShowNodeData nodeData={clickedNode} />
-          <a href="\\C:\Users" target="_blank">フォルダーを開く</a>
-          <input type="file" />
-          <button onClick={openFolder}>Click</button>
+          <Button onClick={openFolder} style={{ background: "#5500BB" }}>参照</Button>
+          <Button style={{ background: "#5500BB" }}>再検索</Button>
         </div>
       </div >
       <Link to="/serch">検索ページへ</Link><br />
       <Link to="/">設定ページへ</Link><br />
-    </div>
+    </div >
   );
 }
 
