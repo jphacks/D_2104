@@ -7,6 +7,14 @@ const {useState} = React;
 console.log(window)
 
 const Setting = () => {
+  // const addon = require("./Visualize_Sounds_Core_addon");
+  // console.log(addon)
+  // console.log(addon.RegisterSource)
+  // const r = addon.RegisterSource("", "", "");
+  // r.then((resp) => {
+  //   const data = resp
+  //   console.log(data)
+  // });
 
   return (
     <div>
