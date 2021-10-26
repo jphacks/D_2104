@@ -4,7 +4,6 @@ import vis from "vis";
 import { useState } from 'react';
 
 
-
 const ShowNodeData = ({ nodeData }) => { //nodeの情報を書く
   return (
     <div style={{ color: "#FFFFFF" }}>
