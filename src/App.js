@@ -9,9 +9,12 @@ import Result from './pages/result.jsx';
 import Serch from './pages/serch';
 import Setting from './pages/setting';
 
-import addon from './Visualize_Sounds_Core_addon.node'
+
+// import addon from './Visualize_Sounds_Core_addon.node'
 
 function App() {
+
+  const { addon } = window.require("bindings")("Visualize_Sounds_Core_addon");
   console.log(addon)
   console.log(addon.RegisterSource)
   const r = addon.RegisterSource("", "", "");

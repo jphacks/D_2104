@@ -14,7 +14,7 @@ let mainWindow;
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({width: 800, height: 600});
-
+    // const { addon } = window.require("bindings")("Visualize_Sounds_Core_addon");
     // console.log(process.env.ELECTRON_START_URL)
     console.log(path.join(__dirname, '/../dist/index.html'));
     const startUrl = url.format({

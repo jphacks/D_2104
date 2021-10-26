@@ -2,7 +2,7 @@
     "name": "visualize-sounds-core",
     "version": "1.0.0",
     "description": "[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2021/07/JPHACKS2021_ogp.jpg)](https://www.youtube.com/watch?v=LUPQFB4QyVo)",
-    "main": "src/electron-starter.js",
+    "main": "dist/index.html",
     "scripts": {
         "react:start": "react-scripts start",
         "react:build": "BUILD_PATH='./dist' react-scripts build",
