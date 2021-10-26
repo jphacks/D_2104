@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import vis from "vis";
 import { useState } from 'react';
 
+
+
 const ShowNodeData = ({ nodeData }) => { //nodeの情報を書く
   return (
     <div style={{ color: "#FFFFFF" }}>
@@ -53,7 +55,7 @@ const Result = () => {
   };
 
   const openFolder = () => {
-    const { shell } = require('electron');
+    const { shell } = window.require('electron');
     shell.showItemInFolder("/Users");
 
   };
