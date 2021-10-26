@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 cmake_policy(SET CMP0042 NEW)
-set (CMAKE_CXX_STANDARD 20)
+set (CMAKE_CXX_STANDARD 11)
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 project (Visualize_Sounds_Core_addon)
@@ -27,6 +27,7 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/ddiakopoulos/libnyquist.git
 )
 FetchContent_MakeAvailable(muFFT libnyquist googletest)
+set (CMAKE_CXX_STANDARD 20)
 include_directories(${CMAKE_JS_INC} PRIVATE "third-party/RapidJson/include")
 file(GLOB SOURCE_FILES "src/addon/entrypoint.cpp" "src/addon/extract_feature.cpp" "src/addon/extract_feature.h" "src/addon/find_similar_audio_mock.h" "src/addon/find_similar_audio.cpp" "src/addon/find_similar_audio.h" "src/addon/register_mock.h" "src/addon/register.cpp" "src/addon/register.h" "src/addon/window_function_constant.h")
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${CMAKE_JS_SRC})
