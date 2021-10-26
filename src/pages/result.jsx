@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 const ShowNodeData = ({ nodeData }) => { //nodeの情報を書く
   return (
-    <div>
+    <div style={{ color: "#FFFFFF" }}>
       <p>id:{nodeData?.id}</p>
       <p>label:{nodeData?.label}</p>
       <p>x:{nodeData?.x}</p>
@@ -46,20 +46,34 @@ const Result = () => {
     const network = new vis.Network(container, data, options);
     network.on('click', (properties) => {
       const id = properties.nodes[0];
-      // const node = nodes.get(id);
-      setClickedNode(nodes.get(id)); //画面に描画するためにstateを変更
+      const node = nodes.get(id);
+      if (node.id) setClickedNode(node); //画面に描画するためにstateを変更
       console.log('clicked nodes:', nodes.get(id)); //コンソールに出力
     });
   };
 
+  const openFolder = () => {
+    const { shell } = require('electron');
+    shell.showItemInFolder("/Users");
+
+  };
+
   useEffect(() => draw(), []);
+
   return (
-    <div>
-      <div id="network"></div>
-      <ShowNodeData nodeData={clickedNode} />
+    <div style={{ background: "#191E2B" }}>
+      <div style={{ display: "flex" }}>
+        <div id="network" style={{ background: "#36383F" }}></div>
+        <div>
+          <ShowNodeData nodeData={clickedNode} />
+          <a href="\\C:\Users" target="_blank">フォルダーを開く</a>
+          <input type="file" />
+          <button onClick={openFolder}>Click</button>
+        </div>
+      </div >
       <Link to="/serch">検索ページへ</Link><br />
       <Link to="/">設定ページへ</Link><br />
-    </div >
+    </div>
   );
 }
 
