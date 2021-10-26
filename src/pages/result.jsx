@@ -1,20 +1,18 @@
 import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 import vis from "vis";
-import ReactDOM from "react-dom";
+import { useState } from 'react';
 
-const ShowNodeData = (nodeData) => { //nodeの情報を書く
-  const container = document.getElementById("data");
-  const element = (
+const ShowNodeData = ({ nodeData }) => { //nodeの情報を書く
+  return (
     <div>
       <p>id:{nodeData?.id}</p>
       <p>label:{nodeData?.label}</p>
       <p>x:{nodeData?.x}</p>
-      <p>y:{nodeData?.id}</p>
+      <p>y:{nodeData?.y}</p>
       <p>title:{nodeData?.title}</p>
     </div>
-  );
-  ReactDOM.render(element, container);
+  )
 };
 
 const Result = () => {
@@ -33,17 +31,24 @@ const Result = () => {
   };
   const options = {
     height: '320px',
-    width: '480px'
+    width: '480px',
+    physics: {
+      enabled: true,
+      maxVelocity: 50,
+      minVelocity: 0.1
+    }
   };
+
+  const [clickedNode, setClickedNode] = useState(null);
 
   const draw = () => {
     const container = document.getElementById('network');
     const network = new vis.Network(container, data, options);
     network.on('click', (properties) => {
       const id = properties.nodes[0];
-      const clickedNode = nodes.get(id);
-      ShowNodeData(clickedNode);
-      console.log('clicked nodes:', clickedNode);
+      // const node = nodes.get(id);
+      setClickedNode(nodes.get(id)); //画面に描画するためにstateを変更
+      console.log('clicked nodes:', nodes.get(id)); //コンソールに出力
     });
   };
 
@@ -51,13 +56,7 @@ const Result = () => {
   return (
     <div>
       <div id="network"></div>
-      <div id="data">
-        <p>id:</p>
-        <p>label:</p>
-        <p>x:</p>
-        <p>y:</p>
-        <p>title:</p>
-      </div>
+      <ShowNodeData nodeData={clickedNode} />
       <Link to="/serch">検索ページへ</Link><br />
       <Link to="/">設定ページへ</Link><br />
     </div >
