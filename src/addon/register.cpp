@@ -1,4 +1,5 @@
 #include <fstream>
+#include <stdio.h>
 #include "register.h"
 #include "rapidjson/filewritestream.h"
 #include "rapidjson/prettywriter.h"
@@ -12,7 +13,7 @@ void Register::WriteFeature(string& writePath, Feature& f){
 #ifdef _MSC_VER
   fopen_s(&fp,  writePath.c_str(), "wb");
 #else
-  fopen_s(&fp,  writePath.c_str(), "w");
+  fp = fopen(writePath.c_str(), "w");
 #endif
     char writeBuffer[256];
     FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
