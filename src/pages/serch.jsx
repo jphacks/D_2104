@@ -2,6 +2,11 @@ import { React, useState } from 'react'
 import { Link } from "react-router-dom";
 import useReactRouter from 'use-react-router';
 
+import { Button } from '@mui/material';
+import { TextField } from '@mui/material';
+
+import './stylesheet.css'
+
 const Serch = ({History}) => {
   const [acceptFile, setAcceptFile] = useState();
   const { history, state } = useReactRouter();
@@ -10,21 +15,39 @@ const Serch = ({History}) => {
     history.push({pathname:'/result',state:{acceptFile: acceptFile}})
   }
 
+
   return (
-    <div>
+    <div className="main">
       <h1>探す</h1>
-      <p>入力アセット</p>
-      <input 
-        type="file"
-        accept="audio/*"
-        onChange={(e)=>{
-          setAcceptFile(e.target.value)
-        }}
+      {/* <TextField 
+        id="filled-basic" 
+        label="Filled" 
+        variant="filled" 
+        label="入力アセットを選択"
+        /> */}
+      <p>入力アセットを選択</p>
+      <Button
+        id="serch_file-select"
+        component="label"
+        variant="contained"
+        style={{ color: "#FFFFFF", backgroundColor: "#5500BB" }}
+      >
+        ファイルを選択
+        <input
+          type="file"
+          accept="audio/*"
+          className="inputFileBtnHide"
+          onChange={(e)=>{setAcceptFile(e.target.files[0].path)}}//pathをつけるとファイルのパスが取得できる（electronの機能）
         />
-        <button
+      </Button>
+        <Button 
+          id="serch_serch-button"
+          variant="contained"
           onClick={() => handleClick()}
-        >探す</button>
-      <Link to="/">設定ページへ</Link><br/>
+          style={{ color: "#FFFFFF", backgroundColor: "#5500BB", width: 120 }}
+        >探す</Button>
+        {acceptFile && acceptFile.path}
+      {/* <Link to="/">設定ページへ</Link><br/> */}
       {/* //パラメータを渡す事もできます。 */}
       {/* <Link to="/pageb?sort=name">リンクテキスト</Link> */}
     </div>
