@@ -101,8 +101,8 @@ void FindSimilarAudio::OnOK(){
         auto coordinates = Napi::Array::New(Env(), fSize);
         for(auto j = 0; j < fSize; ++j){
             auto element = Napi::Object::New(Env());
-            element.Set("f", Napi::Number::New(Env(), result[i].second.first.feature[j].first));
-            element.Set("p", Napi::Number::New(Env(), result[i].second.first.feature[j].second));
+            int f = (int)round(result[i].second.first.feature[j].first - 1 / 0.05);
+            element.Set(uint32_t(f), Napi::Number::New(Env(), result[i].second.first.feature[j].second));
             coordinates[j] = element;
         }
         obj.Set("coordinates", coordinates);
