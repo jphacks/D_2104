@@ -3,11 +3,11 @@ var assert = require("assert");
 const { resolve } = require("path");
 
 describe("addon", function() {
-    it("RegisterSource", function() {
+    it("RegisterSourceMock", function() {
         this.timeout(10000);
         const start = Date.now();
-        const r = addon.RegisterSource("", "", "");
-        console.log('RegisterSource :' + (Date.now() - start).toString())
+        const r = addon.RegisterSourceMock("", "", "");
+        console.log('RegisterSourceMock :' + (Date.now() - start).toString())
         r.then(() => {
             const time = Date.now() - start;
             if (time < 3000) {
@@ -19,11 +19,11 @@ describe("addon", function() {
         }, e => done(e))
     });
 
-    it("FindSimilarAudioFromFile", function(done) {
+    it("FindSimilarAudioFromFileMock", function(done) {
         this.timeout(10000);
         const start = Date.now();
-        const r = addon.FindSimilarAudioFromFile("");
-        console.log('FindSimilarAudioFromFile :' + (Date.now() - start).toString());
+        const r = addon.FindSimilarAudioFromFileMock("");
+        console.log('FindSimilarAudioFromFileMock :' + (Date.now() - start).toString());
         r.then(() => {
             const time = Date.now() - start;
             if (time < 3000) {
@@ -35,13 +35,13 @@ describe("addon", function() {
         }, e => done(e))
     });
 
-    it("FindSimilarAudioFromNode", function(done) {
+    it("FindSimilarAudioFromNodeMock", function(done) {
         this.timeout(10000);
         const start = Date.now();
-        const r = addon.FindSimilarAudioFromNode([{}], [
+        const r = addon.FindSimilarAudioFromNodeMock([{}], [
             [{}]
         ]);
-        console.log('FindSimilarAudioFromNode :' + (Date.now() - start).toString());
+        console.log('FindSimilarAudioFromNodeMock :' + (Date.now() - start).toString());
         r.then(() => {
             const time = Date.now() - start;
             if (time < 3000) {
