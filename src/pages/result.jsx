@@ -37,7 +37,7 @@ const Result = () => {
   const [data, setData] = useState({ nodes: new vis.DataSet([]) });
 
   const search = () => { //dataを更新→useEffectの依存値にdataを加える
-    const response = addon.FindSimilarAudioFromNode([{}], [
+    const response = addon.FindSimilarAudioFromNodeMock([{}], [
       [{}]
     ]);
 
