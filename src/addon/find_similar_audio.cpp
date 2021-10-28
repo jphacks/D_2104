@@ -1,4 +1,5 @@
 #include <filesystem>
+#include <stdio.h>
 #include "find_similar_audio.h"
 #include "rapidjson/filereadstream.h"
 #include "rapidjson/document.h"
@@ -12,7 +13,7 @@ Feature FindSimilarAudio::LoadFeature(string& path){
 #ifdef _MSC_VER
   fopen_s(&fp,  path.c_str(), "wb");
 #else
-  fopen_s(&fp,  path.c_str(), "w");
+  fp = fopen(path.c_str(), "w");
 #endif
     char readBuffer[256];
     FileReadStream is(fp, readBuffer, sizeof(readBuffer));

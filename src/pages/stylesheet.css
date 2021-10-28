@@ -1,0 +1,28 @@
+body { 
+  background-color: #292929;
+  color: white;
+}
+
+.main{
+  margin-left: 10px;
+}
+.inputFileBtnHide {
+    opacity:0;
+    appearance: none;
+    position: absolute;
+  }
+
+.MuiTextField-root{
+
+}
+
+.top-bar {
+  background-color: #5500bb;
+  height: 30px;
+  width: 100%;
+}
+
+#serch_serch-button{
+  top: 60px;
+  left: 250px
+}
