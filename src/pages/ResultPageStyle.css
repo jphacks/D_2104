@@ -1,0 +1,24 @@
+.result_page_container{
+    background: #191E2B;
+    height: 100%;
+}
+
+#link_to_search_page{
+    height: 40px;
+    margin-left:20px;
+    padding-top: 40px;
+    margin-bottom: 10px;
+}
+
+#network{
+    background: #36383F;
+    height: 320px;
+    width: 480px; 
+    margin-left:20px;
+    margin-right:20px;
+    border-radius: 25px;
+}
+
+#data{
+    color: white;
+}

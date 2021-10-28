@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import vis from "vis";
 import PCA from 'pca-js';
 import { parseFeature, reduceDimensions } from '../lib/nodesParser';
-
-import Button from "@mui/material/Button";
+import { Grid, Button } from "@mui/material"
 
 // 次元の範囲を決め打ち。
 const MAX_DIMENSION = 200;
@@ -14,12 +13,12 @@ const addon = window.require("bindings")("Visualize_Sounds_Core_addon.node");
 
 const ShowNodeData = ({ nodeData }) => { //nodeの情報を書く
   return (
-    <div style={{ color: "#FFFFFF" }}>
-      <p>id:{nodeData?.id}</p>
-      <p>label:{nodeData?.label}</p>
+    <div>
+      {/* <p>id:{nodeData?.id}</p> */}
+      {/* <p>label:{nodeData?.label}</p> */}
       {/* <p>x:{nodeData?.x}</p>
       <p>y:{nodeData?.y}</p> */}
-      <p>title:{nodeData?.title}</p>
+      <p>path : {nodeData?.title}</p>
     </div>
   )
 };
@@ -36,7 +35,30 @@ const Result = () => {
 
   const [data, setData] = useState({ nodes: new vis.DataSet([]) });
 
-  const search = () => { //dataを更新→useEffectの依存値にdataを加える
+  const search = () => { //初回だけ呼び出される
+    const response = addon.FindSimilarAudioFromNodeMock([{}], [
+      [{}]
+    ]);
+
+    response.then((nodes) => {
+      console.log(nodes)
+      const nodesFeatures = nodes.map((datum) => {
+        return parseFeature(datum.feature, MAX_DIMENSION)
+      })
+
+      const adjustedData = reduceDimensions(nodesFeatures, 2);
+
+      return nodes.map((node, idx) => {
+        return { id: idx, x: adjustedData[0][idx], y: adjustedData[1][idx], title: node.path }
+      })
+    }).then((nodes) => {
+      const dataSet = nodes = new vis.DataSet(nodes)
+      console.log(dataSet)
+      setData({ nodes: dataSet })
+    })
+  };
+
+  const search_again = () => { //dataを更新→useEffectの依存値にdataを加える
     const response = addon.FindSimilarAudioFromNodeMock([{}], [
       [{}]
     ]);
@@ -85,13 +107,9 @@ const Result = () => {
     });
   };
 
-  // ###########################
-  // ここレンダリング問題残ってる
-  // ###########################
+  //初回render後に一度だけ呼ぶ（これがないと初めにグラフが表示されない
+  useEffect(() => search(), []);
 
-  useEffect(() => search(), []); //初回render後に一度だけ呼ぶ（これがないと初めにグラフが表示されない
-  //dataはsearch()に依存
-  //ClickedNodeはdraw()に依存
   //流れ
   //再検索ボタンが押される→search()が呼ばれる
   //→dataが更新→draw()が呼ばれる
@@ -99,20 +117,23 @@ const Result = () => {
   useEffect(() => draw(), [data]);
 
   return (
-    <div style={{ background: "#191E2B" }}>
-      <div style={{ display: "flex" }}>
-        <div id="network" style={{ background: "#36383F" }}></div>
-        <div style={{ color: "#FFFFFF" }}>
+    <div class="result_page_container">
+      <div id="link_to_search_page">
+        <Link to="/serch" style={{ color: "#FF8C00" }}>× アセット選択フォームへ</Link>
+      </div>
+      <div style={{ display: "flex", height: "430px" }}>
+        <div id="network"></div>
+        <div id="data">
+          <p>入力アセット</p>
           <ShowNodeData nodeData={rootNode} />
-          <p>----------------------</p>
+          <p>---------------</p>
+          <p>選択アセット</p>
           <ShowNodeData nodeData={clickedNode} />
           <Button onClick={openFolder} style={{ background: "#5500BB" }}>参照</Button>
-          <Button onClick={search} style={{ background: "#5500BB" }}>再検索</Button>
+          <Button onClick={search_again} style={{ background: "#5500BB" }}>再検索</Button>
         </div>
-      </div >
-      <Link to="/serch">検索ページへ</Link><br />
-      <Link to="/">設定ページへ</Link><br />
-    </div >
+      </div>
+    </div>
   );
 }
 
