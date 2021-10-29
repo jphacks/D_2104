@@ -44,7 +44,8 @@ const Result = props => {
 
       const adjustedData = reduceDimensions(nodesFeatures, 2);
       return nodes.map((node, idx) => {
-        return { id: idx, x: adjustedData[0][idx], y: adjustedData[1][idx], title: node.path }
+        const id = node.dbPath.split("/").slice(-1)[0].split(".")[0]
+        return { id: id, x: adjustedData[0][idx], y: adjustedData[1][idx], title: node.path }
       })
     }).then((nodes) => {
       const dataSet = nodes = new vis.DataSet(nodes)
