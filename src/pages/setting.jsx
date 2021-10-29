@@ -1,122 +1,115 @@
-import React from 'react'
-import { Link } from "react-router-dom";
-import { Button } from '@mui/material';
-import './stylesheet.css'
-import { flexbox } from '@mui/system';
-// import RegisterSource from'/tests/addonTests.js'
+import React from "react";
+import { Button, Grid, Box } from "@mui/material";
+import "./stylesheet.css";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import TreeView from "@mui/lab/TreeView";
+import TreeItem from "@mui/lab/TreeItem";
+
 
 const addon = window.require("bindings")("Visualize_Sounds_Core_addon");
 
 const Setting = () => {
-
-  // function showFolderName(file) {
-
-  //   const preview = document.getElementById('folderName');
-  //   const reader = new FileReader();
-
-  //   reader.onload = function (e) {
-  //     const nameUrl = e.target.result;
-  //     const name = document.createElement("name");
-  //     preview.appendChild(name);
-  //   }
-  //   reader.readAsDataURL(file);
-  // }
-
-//<input>でフォルダが選択された時の処理
-  // const folderInput = document.getElementById('folderInput');
-  // const handleFolderselect = () => {
-  //   const folders = folderInput.files;
-
-  //   for (let i=0;i<folders.length;i++) {
-  //     console.log(files[i]);
-  //   }
-  // }
-  // folderInput.assEventListener('change', handleFolderselect)
-
-  // document.getElementById("filepicker").addEventListener("change", function(event) {
-  //   let output = document.getElementById("listing");
-  //   let files = event.target.files;
-
-  //   for (let i=0; i<files.length; i++) {
-  //     let item = document.createElement("li");
-  //     item.innerHTML = files[i].webkitRelativePath;
-  //     output.appendChild(item);
-  //   };
-  // }, false);
-
-
-//フォルダが選択されたときの状態管理
-  const [folderName, setFolderName] = React.useState('');
-  const folderHandleChange = e => {
-    // setFolderName(e.target.value)
-    console.log(e.target);
-  }
-
-//オプションが入力された時の状態管理
-  const [formatName, setFormatName] = React.useState('');
-  const formatHandleChange = e => setFormatName(e.target.value); 
-
-  const handleClick = () => {
-    console.log(addon);
-    console.log(addon.RegisterSourceMock);
-    const r = addon.RegisterSourceMock("", "", "");
-    console.log(r);
-    r.then((resp) => {
-      const data = resp
-      console.log(data)
-      });
+  //フォルダが選択されたときの状態管理
+  const [folderName, setFolderName] = React.useState("");
+  const folderHandleChange = (e) => {
+    const filePath = e.target.files[0];
+    const folderPath = filePath.path.split("/").slice(0, -1).join("/");
+    setFolderName(folderPath);
   };
 
+  //オプションが入力された時の状態管理
+  const [formatName, setFormatName] = React.useState("");
+  const formatHandleChange = (e) => {
+    console.log(e.target.value);
+    setFormatName(e.target.value);
+  };
 
+  const handleClick = () => {
+    const r = addon.RegisterSourceMock("", "", "");
+    r.then((resp) => {
+      const data = resp;
+      console.log(data);
+    });
+  };
 
   return (
     <div className="main">
       <h1>設定</h1>
 
-      <form style={{ color: "#fff" }}/*className="chooseDirectory"*/ action='#' method='post' encType="multipart/form-data">
-        <p>登録するディレクトリ</p>
-        <div className={{ display:"flex" }}>
-          <Button
-            component="label"
-            variant="contained"
-            style={{ color: "#FFFFFF", backgroundColor: "#5500BB" }}
-          >
-            フォルダを選択
-            <input
-              type="file"
-              id="filepicker"
-              className="inputFileBtnHide"
-              webkitdirectory="" directory="" multiple
-              value={folderName}
-              onChange={(e)=>{
-                console.log("aaaaaaa");
-                folderHandleChange(e)}}/>
-          </Button>
-          <ul　id="listing" style={{ color:"#fff" }}></ul>
-        </div>
+      <form
+        style={{ color: "#fff" }}
+        action="#"
+        method="post"
+        encType="multipart/form-data"
+      >
+        <h3>登録するディレクトリ</h3>
+        <Grid container alignItems="center">
+          <Grid item>
+            <Button
+              component="label"
+              variant="contained"
+              style={{ color: "#FFFFFF", backgroundColor: "#5500BB" }}
+            >
+              フォルダを選択
+              <input
+                type="file"
+                id="filepicker"
+                webkitdirectory=""
+                style={{
+                  opacity: "0",
+                  appearance: "none",
+                  position: "absolute",
+                }}
+                onChange={(e) => {
+                  folderHandleChange(e);
+                }}
+              />
+            </Button>
+          </Grid>
+          <Grid ml={2}>
+            <p>{folderName}</p>
+          </Grid>
+        </Grid>
       </form>
-      <div style={{ color: "#fff" }}/*className="option"*/>
-        <p>登録オプション</p>
-        <p>ファイル名条件(正規表現)</p>
-        <input type="text" value={formatName} onChange={formatHandleChange}/>
-        <p>例：*mp3</p>
+      <div style={{ color: "#fff" }}>
+        <Box my={3}>
+          <TreeView
+            aria-label="file system navigator"
+            defaultCollapseIcon={<ExpandMoreIcon />}
+            defaultExpandIcon={<ChevronRightIcon />}
+          >
+            <TreeItem nodeId="1" label="登録オプション">
+              <p>ファイル名条件(正規表現)</p>
+              <input
+                type="text"
+                value={formatName}
+                onChange={(e) => formatHandleChange(e)}
+                style={{
+                  width: "90%",
+                  height: "2rem",
+                  backgroundColor: "#37383F",
+                  color: "#ffffff",
+                }}
+              />
+              <p>例：*mp3</p>
+            </TreeItem>
+          </TreeView>
+        </Box>
       </div>
 
       <Button
         component="label"
         variant="contained"
-        style={{ color: "#fff" , backgroundColor: "#5500bb" }}
-        onClick={() => {handleClick()}}
-      >登録</Button><br/>
-
-      <Link to="/serch">検索ページへ</Link><br/>
-      <Link to="/result">結果ページへ</Link><br/>
-      {/* //パラメータを渡す事もできます。 */}
-      {/* <Link to="/pageb?sort=name">リンクテキスト</Link> */}
-
+        style={{ color: "#fff", backgroundColor: "#5500bb" }}
+        onClick={() => {
+          handleClick();
+        }}
+      >
+        登録
+      </Button>
     </div>
+  );
+};
 
-  )
-}
-
-export default Setting
+export default Setting;
