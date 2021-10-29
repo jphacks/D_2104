@@ -5,6 +5,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import TreeView from "@mui/lab/TreeView";
 import TreeItem from "@mui/lab/TreeItem";
+import SuccessAlert from "../components/SuccessAlert"
 
 
 const addon = window.require("bindings")("Visualize_Sounds_Core_addon");
@@ -12,6 +13,8 @@ const addon = window.require("bindings")("Visualize_Sounds_Core_addon");
 const Setting = () => {
   //フォルダが選択されたときの状態管理
   const [folderName, setFolderName] = React.useState("");
+  const [isOpen, setIsOpen] = React.useState(false);
+
   const folderHandleChange = (e) => {
     const filePath = e.target.files[0];
     const folderPath = filePath.path.split("/").slice(0, -1).join("/");
@@ -30,7 +33,9 @@ const Setting = () => {
     r.then((resp) => {
       const data = resp;
       console.log(data);
-    });
+    }).then(() => {
+      setIsOpen(true)
+    })
   };
 
   return (
@@ -97,7 +102,10 @@ const Setting = () => {
           </TreeView>
         </Box>
       </div>
-
+      
+      <Box style={{width: "50%"}}>
+        <SuccessAlert severity="success" isOpen={isOpen} setIsOpen={setIsOpen} message="登録しました"></SuccessAlert>
+      </Box>
       <Button
         component="label"
         variant="contained"
