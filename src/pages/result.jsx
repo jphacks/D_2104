@@ -27,7 +27,7 @@ const ShowInputPath = ({ inputPath }) => {
 
 const Result = props => {
   const [data, setData] = useState({ nodes: new vis.DataSet([]) });
-  const [inputPath, setInputPath] = useState(props.location.state.acceptFilePath);
+  const [inputPath, setInputPath] = useState(props?.location?.state?.acceptFilePath);
 
   const [clickedNode, setClickedNode] = useState(null);
 
@@ -77,9 +77,9 @@ const Result = props => {
   };
 
   //音声の再生周り
-  function playSound() {
+  const playSound = (path) => {
     return new Promise((resolve, reject) => {
-      player.play({ path: clickedNode.title }).then(() => {
+      player.play({ path: path }).then(() => {
         resolve();
       }).catch((error) => {
         console.error(error);
@@ -126,7 +126,7 @@ const Result = props => {
         <Grid container alignItems="center">
           <Grid item>入力アセット</Grid>
           <Grid item>
-            <IconButton aria-label="delete" onClick={playSound} >
+            <IconButton aria-label="delete" onClick={() => playSound(inputPath)} >
               <PlayCircleFilledIcon color="primary" />
             </IconButton>
           </Grid>
@@ -139,7 +139,7 @@ const Result = props => {
 
           <Grid item>選択アセット</Grid>
           <Grid item>
-            <IconButton aria-label="delete" onClick={playSound} >
+            <IconButton aria-label="delete" onClick={() => playSound(clickedNode?.title)} >
               <PlayCircleFilledIcon color="primary" />
             </IconButton>
           </Grid>
