@@ -12,7 +12,7 @@ const Serch = ({History}) => {
   const { history, state } = useReactRouter();
 
   const handleClick = () => {
-    history.push({pathname:'/result',state:{acceptFile: acceptFile}})
+    history.push({pathname:'/result',state:{acceptFilePath: acceptFile}})
   }
 
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import vis from "vis";
 // import PCA from 'pca-js';
 import { parseFeature, reduceDimensions } from '../lib/nodesParser';
@@ -21,23 +21,15 @@ const ShowNodeData = ({ nodeData }) => { //nodeの情報を書く
   )
 };
 
-const Result = () => {
-  //フォルダを開く
-  const openFolder = () => {
-    const { shell } = window.require('electron');
-    const os = window.require('os');
-    //一旦はどのosでも動くようにhomedirを開く。
-    shell.showItemInFolder(os.homedir());
-    //osによってファイルパスの扱いが違うけど、受け取ったパスをそのまま使って大丈夫そう
-    // shell.showItemInFolder("C:\\Users\\morit\\Pictures\\My Cloud Samples\\sample01.jpg");
-  };
+const Result = props => {
+  const path = props.location.state.acceptFilePath;
 
   const [data, setData] = useState({ nodes: new vis.DataSet([]) });
+
+  
   //resut_pageに初回遷移時に一度だけ呼び出す
   const search = () => { //初回だけ呼び出される
-    const response = addon.FindSimilarAudioFromNodeMock([{}], [
-      [{}]
-    ]);
+    const response = addon.FindSimilarAudioFromFileMock(path)
 
     response.then((nodes) => {
       console.log(nodes)
@@ -46,7 +38,6 @@ const Result = () => {
       })
 
       const adjustedData = reduceDimensions(nodesFeatures, 2);
-
       return nodes.map((node, idx) => {
         return { id: idx, x: adjustedData[0][idx], y: adjustedData[1][idx], title: node.path }
       })
@@ -56,7 +47,9 @@ const Result = () => {
       setData({ nodes: dataSet })
     })
   };
-  //再建策ボタンを押すと呼ばれる
+
+
+  //再検索ボタンを押すと呼ばれる
   const search_again = () => { //dataを更新→useEffectの依存値にdataを加える
     const response = addon.FindSimilarAudioFromNodeMock([{}], [
       [{}]
@@ -82,10 +75,10 @@ const Result = () => {
 
   //音声の再生周り
   const player = window.require('node-wav-player');
-  const path = "C:\\Users\\morit\\Music\\SE\\sample.wav";
+  const samplePath = "C:\\Users\\morit\\Music\\SE\\sample.wav";
   function playSound() {
     return new Promise((resolve, reject) => {
-      player.play({ path: path }).then(() => {
+      player.play({ path: samplePath }).then(() => {
         resolve();
       }).catch((error) => {
         console.error(error);
@@ -118,6 +111,15 @@ const Result = () => {
       if (node.id) setClickedNode(node); //画面に描画するためにstateを変更
       console.log('clicked nodes:', data.nodes.get(id)); //コンソールに出力
     });
+  };
+
+  const openFolder = () => {
+    const { shell } = window.require('electron');
+    const os = window.require('os');
+    //一旦はどのosでも動くようにhomedirを開く。
+    shell.showItemInFolder(os.homedir());
+    //osによってファイルパスの扱いが違うけど、受け取ったパスをそのまま使って大丈夫そう
+    // shell.showItemInFolder("C:\\Users\\morit\\Pictures\\My Cloud Samples\\sample01.jpg");
   };
 
   //初回render後に一度だけ呼ぶ（これがないと初めにグラフが表示されない
@@ -177,26 +179,6 @@ const Result = () => {
     </Grid >
   );
 
-  // return (
-  //   <div class="result_page_container">
-  //     <div id="link_to_search_page">
-  //       <Link to="/serch" style={{ color: "#FF8C00" }}>× アセット選択フォームへ</Link>
-  //     </div>
-  //     <div >
-  //       <div id="network"></div>
-  //       <div id="data">
-  //         <p>入力アセット</p>
-  //         <ShowNodeData nodeData={rootNode} />
-  //         <p>---------------</p>
-  //         <p>選択アセット</p>
-  //         <ShowNodeData nodeData={clickedNode} />
-  //         <Button onClick={openFolder} style={{ background: "#5500BB" }}>参照</Button>
-  //         <Button onClick={search_again} style={{ background: "#5500BB" }}>再検索</Button>
-  //         <Button onClick={playSound_wav} style={{ background: "#FFFFFF", color: "#000000" }}>再生</Button>
-  //       </div>
-  //     </div>
-  //   </div >
-  // );
 }
 
 export default Result
