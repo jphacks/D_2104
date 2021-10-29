@@ -53,7 +53,6 @@ const theme = createTheme({//これで行けそうなんだけどなあ．．タ
   }
 });
 
-
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   
@@ -92,24 +91,25 @@ export default function VerticalTabs(props) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    handleClick(value);
   };
 
   const { history } = useReactRouter();
   const handleClick = (pathNum) => {
-    const dict = [ "/", "serch"];
+    const dict = [ "serch","/"];//ここの順番を逆にすることで一個前のやつをhistory.pushできるようにした．（タブが二つ以上あるとこの方法が使えないのでよくない）
     history.push({pathname:`${dict[pathNum]}`});
-    console.log(history.location.pathname);
+    console.log(history.location.pathname,dict[pathNum]);
   }
   // sx={{ flexGrow: 1, bgcolor: '#292929', display: 'flex', height: '100%' }}
   return (
-    <Box 　sx={{ flexGrow: 1, bgcolor: '#292929', display: 'flex', height: '100%' ,bgcolor: 'primary.main'}}>
+    <Box sx={{ flexGrow: 1, bgcolor: '#292929', display: 'flex', height: '100%' ,bgcolor: 'primary.main'}}>
       <Tabs
-        theme = {theme}
+        
         orientation="vertical"
         variant="scrollable"
         value={value}
         onChange={handleChange}
-        onClick={() => {handleClick(value)}}
+        
         aria-label="機能選択バー"
         sx={{ borderRight: 1, borderColor: 'divider' , color:'white'}}
         textcolor="#FFFFFF"
