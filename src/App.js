@@ -8,21 +8,27 @@ import './pages/stylesheet.css';
 import Result from './pages/result.jsx';
 import Serch from './pages/serch';
 import Setting from './pages/setting';
+import Tab from './pages/tab'
 
-function App() {
+import ListItem from '@mui/material/ListItem';
+import Box from '@mui/material/Box';
+import { grid } from '@mui/system';
+
+
+const App = () => {
   return (
     <div>
       <div className="top-bar"></div>
-      <BrowserRouter>
-
-      <Switch>
-        <Route exact path="/" component={Setting} />
-        <Route exact path="/serch" component={Serch} />
-        <Route exact path="/result" component={Result} />
-
-      </Switch>
-
-      </BrowserRouter>
+        <BrowserRouter>
+        <Tab>
+        <Switch>
+          <Route exact path="/" component={Setting} />
+          <Route exact path="/serch" component={Serch} />
+          <Route exact path="/result" component={Result} />
+        </Switch>
+        </Tab>
+        </BrowserRouter>
+      
     </div>
     
 
