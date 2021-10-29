@@ -1,0 +1,15 @@
+.result_page_container{
+    background: #191E2B;
+    height: 100%;
+}
+
+#network{
+    background: #36383F;
+    height: 400px;
+    /* width: 480px;  */
+    border-radius: 25px;
+}
+
+#data{
+    color: white;
+}
