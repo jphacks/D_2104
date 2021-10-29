@@ -1,38 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import vis from "vis";
-// import PCA from 'pca-js';
 import { parseFeature, reduceDimensions } from '../lib/nodesParser';
 import { Button } from "@mui/material";
 import { Grid } from "@mui/material";
-// import { fontSize } from '@mui/system';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import IconButton from '@mui/material/IconButton';
-import SvgIcon from '@mui/material/SvgIcon';
+import Divider from '@mui/material/Divider'
 
 // 次元の範囲を決め打ち。
 const MAX_DIMENSION = 200;
 
 const addon = window.require("bindings")("Visualize_Sounds_Core_addon.node");
 
-const ShowNodeData = ({ nodeData }) => { //nodeの情報を書く
+const ShowNodeData = ({ nodeData }) => {
   return (
-    <div>path : {nodeData?.title}</div>
+    <div>{nodeData?.title}</div>
+  )
+};
+
+const ShowInputPath = ({ inputPath }) => {
+  return (
+    <div>{inputPath}</div>
   )
 };
 
 const Result = props => {
-  const path = props.location.state.acceptFilePath;
-
   const [data, setData] = useState({ nodes: new vis.DataSet([]) });
+  const [inputPath, setInputPath] = useState(props.location.state.acceptFilePath);
 
-  
-  //resut_pageに初回遷移時に一度だけ呼び出す
-  const search = () => { //初回だけ呼び出される
-    const response = addon.FindSimilarAudioFromFileMock(path)
+  const [clickedNode, setClickedNode] = useState(null);
+
+  const player = window.require('node-wav-player');
+
+  //一度だけ呼び出す
+  const search = () => {
+    const response = addon.FindSimilarAudioFromFileMock(inputPath);
 
     response.then((nodes) => {
-      console.log(nodes)
       const nodesFeatures = nodes.map((datum) => {
         return parseFeature(datum.feature, MAX_DIMENSION)
       })
@@ -43,20 +48,17 @@ const Result = props => {
       })
     }).then((nodes) => {
       const dataSet = nodes = new vis.DataSet(nodes)
-      console.log(dataSet)
       setData({ nodes: dataSet })
     })
   };
 
-
   //再検索ボタンを押すと呼ばれる
-  const search_again = () => { //dataを更新→useEffectの依存値にdataを加える
+  const search_again = () => {
     const response = addon.FindSimilarAudioFromNodeMock([{}], [
       [{}]
     ]);
 
     response.then((nodes) => {
-      console.log(nodes)
       const nodesFeatures = nodes.map((datum) => {
         return parseFeature(datum.feature, MAX_DIMENSION)
       })
@@ -68,17 +70,15 @@ const Result = props => {
       })
     }).then((nodes) => {
       const dataSet = nodes = new vis.DataSet(nodes)
-      console.log(dataSet)
       setData({ nodes: dataSet })
+      setInputPath(clickedNode.title);
     })
   };
 
   //音声の再生周り
-  const player = window.require('node-wav-player');
-  const samplePath = "C:\\Users\\morit\\Music\\SE\\sample.wav";
   function playSound() {
     return new Promise((resolve, reject) => {
-      player.play({ path: samplePath }).then(() => {
+      player.play({ path: clickedNode.path }).then(() => {
         resolve();
       }).catch((error) => {
         console.error(error);
@@ -86,9 +86,6 @@ const Result = props => {
       });
     });
   }
-
-  const rootNode = { id: 1, label: 'A', x: 20, y: 180, title: "/asset/music1.wav" };
-  const [clickedNode, setClickedNode] = useState(null);
 
   const options = {
     // height: '320px',
@@ -109,7 +106,6 @@ const Result = props => {
       const id = properties.nodes[0];
       const node = data.nodes.get(id);
       if (node.id) setClickedNode(node); //画面に描画するためにstateを変更
-      console.log('clicked nodes:', data.nodes.get(id)); //コンソールに出力
     });
   };
 
@@ -122,21 +118,13 @@ const Result = props => {
     // shell.showItemInFolder("C:\\Users\\morit\\Pictures\\My Cloud Samples\\sample01.jpg");
   };
 
-  //初回render後に一度だけ呼ぶ（これがないと初めにグラフが表示されない
   useEffect(() => search(), []);
-
-  //流れ
-  //再検索ボタンが押される→search()が呼ばれる
-  //→dataが更新→draw()が呼ばれる
-  //→ClickedNodeが更新→reactがいい感じにrenderしてくれる
   useEffect(() => draw(), [data]);
-
-
   return (
     <Grid container>
-      <Grid item sm={12} ml={2}>
+      <Grid item sm={12} mt={6}>
         <Link to="/serch" style={{ color: "#FF8C00" }}>× アセット選択フォームへ</Link></Grid>
-      <Grid item sm={6} id="network" mt={2} ml={2}></Grid>
+      <Grid item sm={6} id="network" mt={2}></Grid>
       <Grid item sm={5} id="info" mt={2} ml={2}>
         <Grid container alignItems="center">
           <Grid item>入力アセット</Grid>
@@ -147,14 +135,13 @@ const Result = props => {
           </Grid>
 
           <Grid item sm={12}>
-            <ShowNodeData nodeData={rootNode} />
+            <ShowInputPath inputPath={inputPath} />
           </Grid>
 
-          <Grid item sm={12}><p>---------------</p></Grid>
+          <Grid item sm={12} mt={3} mb={1}><Divider color="#FFFFFF" /></Grid>
 
           <Grid item>選択アセット</Grid>
           <Grid item>
-            {/* <Button onClick={playSound}><PlayCircleFilledIcon /></Button> */}
             <IconButton aria-label="delete" onClick={playSound} >
               <PlayCircleFilledIcon color="primary" />
             </IconButton>
@@ -166,13 +153,13 @@ const Result = props => {
                 <ShowNodeData nodeData={clickedNode} />
               </Grid>
               <Grid item sm={6}>
-                <Button onClick={openFolder} style={{ background: "#FFFFFF", color: "#000000" }}>参照</Button>
+                <Button onClick={openFolder} size='small' style={{ background: "#5500BB", color: "#FFFFFF" }}>参照</Button>
               </Grid>
             </Grid>
           </Grid>
 
-          <Grid item sm={12}>
-            <Button onClick={search_again} style={{ background: "#5500BB" }}>再検索</Button>
+          <Grid item sm={12} mt={3}>
+            <Button onClick={search_again} style={{ background: "#5500BB", color: "#FFFFFF" }}>選択アセットで再検索</Button>
           </Grid>
         </Grid>
       </Grid>
