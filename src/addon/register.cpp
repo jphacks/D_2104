@@ -1,4 +1,6 @@
 #include <fstream>
+#include <exception>
+#include <stdexcept>
 #include <stdio.h>
 #include "register.h"
 #include "rapidjson/filewritestream.h"
@@ -72,7 +74,7 @@ void Register::Execute(){
         rule.erase(0, pos + 1);
     }
     filesystem::path indexPath = saveDir;
-    indexPath = indexPath.concat("index.vsc");
+    indexPath.concat("/index.vsc");
     ofstream fout;
     if(exists(indexPath)){
         // TODO: 差分とって必要な分だけ更新．
@@ -94,14 +96,14 @@ void Register::Execute(){
 #pragma omp parallel for schedule(dynamic, 1)
     for(auto i = 0; i < exectractor.size(); ++i){
         int c = 0;
-        auto feature = exectractor[i].Extract(c);
+        auto feature = exectractor[i].Extract();
         if(feature.isSuccess){
             filesystem::path writePath = saveDir;
             #pragma omp critical(output)
             {
-                writePath.concat(to_string(Id) + ".vsc");
+                writePath.concat("/" + to_string(Id) + ".vsc");
+                fout << feature.path << ":" << writePath.string() << endl;
                 ++Id;
-                fout << feature.path << endl;
             }
             auto writePathStr = writePath.string();
             WriteFeature(writePathStr, feature);

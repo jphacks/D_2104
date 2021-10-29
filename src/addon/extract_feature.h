@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <fstream>
 #include "fft_internal.h"
 
 struct Feature{
@@ -27,6 +28,7 @@ class ExtractFeature{
     public:
         ExtractFeature(std::string sourcePath): path(sourcePath){}
         std::vector<std::vector<std::pair<double, double>>> Correct(std::vector<PeekData>& peeksS, std::vector<PeekData>& peeksL);
-        std::vector<std::pair<double, double>> Select(std::vector<std::vector<std::pair<double, double>>>& peeks, double& baseFrequency, int& groupCount);
+        std::vector<std::pair<double, double>> Select(std::vector<std::vector<std::pair<double, double>>>& peeks, double& baseFrequency);
         Feature Extract(int& groupCount);
+        Feature Extract();
 };
