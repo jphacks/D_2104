@@ -17,7 +17,7 @@ const App = () => {
 
       <BrowserRouter>
         <Grid container>
-          <Grid item sm={2}>
+          <Grid style={{height: "100vh"}} item sm={2}>
             <Tab></Tab>
           </Grid>
           <Grid item sm={10}>
