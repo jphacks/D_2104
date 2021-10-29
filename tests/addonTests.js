@@ -3,6 +3,7 @@ var assert = require("assert");
 const { resolve } = require("path");
 
 describe("addon", function() {
+
     it("RegisterSourceMock", function() {
         this.timeout(10000);
         const start = Date.now();
@@ -56,4 +57,19 @@ describe("addon", function() {
         this.timeout(100000);
         addon.RegisterSource("tests/sampling", "", "tests/db").then(() => { done(); }, e => done(e))
     });
+    it("AudioTest", function(done) {
+        this.timeout(10000);
+        let AudioPlayer = addon.AudioPlayer;
+        let audio = new AudioPlayer();
+        console.log(audio);
+        const d = audio.SetVolume(0.5);
+        console.log(d);
+        const d1 = audio.Play("tests/sampling/1EX00007.WAV");
+        console.log(d1);
+        setTimeout(function() {
+            const d2 = audio.Stop();
+            console.log(d2);
+            done();
+        }, 3000);
+    })
 });

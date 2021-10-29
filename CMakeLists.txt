@@ -26,13 +26,17 @@ FetchContent_Declare(
   libnyquist
   GIT_REPOSITORY https://github.com/ddiakopoulos/libnyquist.git
 )
-FetchContent_MakeAvailable(muFFT libnyquist googletest)
+FetchContent_Declare(
+  rtaudio
+  GIT_REPOSITORY https://github.com/thestk/rtaudio.git
+)
+FetchContent_MakeAvailable(muFFT libnyquist rtaudio googletest)
 set (CMAKE_CXX_STANDARD 20)
 include_directories(${CMAKE_JS_INC} PRIVATE "third-party/RapidJson/include")
-file(GLOB SOURCE_FILES "src/addon/entrypoint.cpp" "src/addon/extract_feature.cpp" "src/addon/extract_feature.h" "src/addon/find_similar_audio_mock.h" "src/addon/find_similar_audio.cpp" "src/addon/find_similar_audio.h" "src/addon/register_mock.h" "src/addon/register.cpp" "src/addon/register.h" "src/addon/window_function_constant.h")
+file(GLOB SOURCE_FILES "src/addon/entrypoint.cpp" "src/addon/extract_feature.cpp" "src/addon/extract_feature.h" "src/addon/find_similar_audio_mock.h" "src/addon/find_similar_audio.cpp" "src/addon/find_similar_audio.h" "src/addon/register_mock.h" "src/addon/register.cpp" "src/addon/register.h" "src/addon/audio_player.cpp" "src/addon/audio_player.h" "src/addon/window_function_constant.h")
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${CMAKE_JS_SRC})
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
-target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB} muFFT libnyquist)
+target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB} muFFT libnyquist rtaudio)
 
 # Include Node-API wrappers
 execute_process(COMMAND node -p "require('node-addon-api').include"
@@ -44,4 +48,4 @@ string(REGEX REPLACE "[\r\n\"]" "" NODE_ADDON_API_DIR ${NODE_ADDON_API_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${NODE_ADDON_API_DIR})
 
 # define NPI_VERSION
-add_definitions(-DNAPI_VERSION=3)
+add_definitions(-DNAPI_VERSION=7)

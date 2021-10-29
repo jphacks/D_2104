@@ -3,11 +3,12 @@
 #include "find_similar_audio.h"
 #include "register_mock.h"
 #include "register.h"
+#include "audio_player.h"
 
 using namespace std;
 using namespace Napi;
 
-static Promise RegisterSource(const CallbackInfo& info){
+static Promise RegisterSource(const Napi::CallbackInfo& info){
     auto env = info.Env();
     string sourcePath = info[0].As<Napi::String>().ToString();
     string rule = info[1].As<Napi::String>().ToString();
@@ -18,7 +19,7 @@ static Promise RegisterSource(const CallbackInfo& info){
     return promise;
 }
 
-static Promise RegisterSourceMock(const CallbackInfo& info){
+static Promise RegisterSourceMock(const Napi::CallbackInfo& info){
     auto env = info.Env();
     RegisterMock* reg = new RegisterMock(env);
     auto promise = reg->GetPromise();
@@ -26,7 +27,7 @@ static Promise RegisterSourceMock(const CallbackInfo& info){
     return promise;
 }
 
-static Promise FindSimilarAudioFromFile(const CallbackInfo& info){
+static Promise FindSimilarAudioFromFile(const Napi::CallbackInfo& info){
     auto env = info.Env();
     string sourcePath = info[0].As<Napi::String>().ToString();
     string savePath = info[1].As<Napi::String>().ToString();
@@ -39,7 +40,7 @@ static Promise FindSimilarAudioFromFile(const CallbackInfo& info){
     return promise;
 }
 
-static Promise FindSimilarAudioFromFileMock(const CallbackInfo& info){
+static Promise FindSimilarAudioFromFileMock(const Napi::CallbackInfo& info){
     auto env = info.Env();
     FindSimilarAudioMock* findAudio = new FindSimilarAudioMock(env);
     auto promise = findAudio->GetPromise();
@@ -47,7 +48,7 @@ static Promise FindSimilarAudioFromFileMock(const CallbackInfo& info){
     return promise;
 }
 
-static Promise FindSimilarAudioFromNode(const CallbackInfo& info){
+static Promise FindSimilarAudioFromNode(const Napi::CallbackInfo& info){
     auto env = info.Env();
     auto node = info[0].As<Napi::Object>().Get("dbPath").ToString();
     auto savePath = info[1].As<Napi::String>().ToString();
@@ -57,7 +58,7 @@ static Promise FindSimilarAudioFromNode(const CallbackInfo& info){
     return promise;
 }
 
-static Promise FindSimilarAudioFromNodeMock(const CallbackInfo& info){
+static Promise FindSimilarAudioFromNodeMock(const Napi::CallbackInfo& info){
     auto env = info.Env();
     FindSimilarAudioMock* findAudio = new FindSimilarAudioMock(env);
     auto promise = findAudio->GetPromise();
@@ -73,6 +74,7 @@ static Object Init(Env env, Object exports)
     exports.Set("FindSimilarAudioFromFileMock", Napi::Function::New(env, FindSimilarAudioFromFileMock));
     exports.Set("FindSimilarAudioFromNode", Napi::Function::New(env, FindSimilarAudioFromNode));
     exports.Set("FindSimilarAudioFromNodeMock", Napi::Function::New(env, FindSimilarAudioFromNodeMock));
+    AudioPlayer::Init(env, exports);
     return exports;
 }
 
