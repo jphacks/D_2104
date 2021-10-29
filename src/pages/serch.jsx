@@ -46,7 +46,7 @@ const Serch = ({History}) => {
           onClick={() => handleClick()}
           style={{ color: "#FFFFFF", backgroundColor: "#5500BB", width: 120 }}
         >探す</Button>
-        {acceptFile && acceptFile.path}
+        {acceptFile && <p>{acceptFile}</p>}
       {/* <Link to="/">設定ページへ</Link><br/> */}
       {/* //パラメータを渡す事もできます。 */}
       {/* <Link to="/pageb?sort=name">リンクテキスト</Link> */}
