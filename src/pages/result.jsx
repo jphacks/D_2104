@@ -39,7 +39,7 @@ const Result = props => {
 
     response.then((nodes) => {
       const nodesFeatures = nodes.map((datum) => {
-        return parseFeature(datum.feature, MAX_DIMENSION)
+        return parseFeature(datum.coordinates, MAX_DIMENSION)
       })
 
       const adjustedData = reduceDimensions(nodesFeatures, 2);
@@ -60,7 +60,7 @@ const Result = props => {
 
     response.then((nodes) => {
       const nodesFeatures = nodes.map((datum) => {
-        return parseFeature(datum.feature, MAX_DIMENSION)
+        return parseFeature(datum.coordinates, MAX_DIMENSION)
       })
 
       const adjustedData = reduceDimensions(nodesFeatures, 2);
