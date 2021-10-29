@@ -9,22 +9,48 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import { Box, ThemeProvider, createTheme } from '@mui/system';
 
-const theme = createTheme({
+
+const thoeme = createTheme({//これ使わない，型だけ残しときたいからthemeをタイポにした
   palette: {
-    background: {
-      paper: '#fff',
+    primary: {
+      light: '#8c3fef',
+      main: '#5500bb',
+      dark: '#090089',
+      contrastText: '#fff',
     },
-    text: {
-      primary: '#173A5E',
-      secondary: '#46505A',
-    },
-    action: {
-      active: '#001E3C',
-    },
-    success: {
-      dark: '#009688',
+    secondary: {
+      light: '#515151',
+      main: '#292929',
+      dark: '#000000',
+      contrastText: '#000',
     },
   },
+});
+
+const theme = createTheme({//これで行けそうなんだけどなあ．．タブのホバーの色が変わんない…………
+  overrides: {
+    MuiTabs: {
+      indicator: {
+        backgroundColor: '#5500bb'
+      }
+    },
+    MuiTab: {
+      root: {
+        "&:hover": {
+          backgroundColor: '#5500bb',
+          color: '#5500bb'
+        }
+      },
+      selected: {
+        backgroundColor: '#f44336',
+        color: '#ff7961',
+        "&:hover": {
+          backgroundColor: '#c0ca33',
+          color: '#f5fd67'
+        }
+      }
+    }
+  }
 });
 
 
@@ -72,13 +98,13 @@ export default function VerticalTabs(props) {
   const handleClick = (pathNum) => {
     const dict = [ "/", "serch"];
     history.push({pathname:`${dict[pathNum]}`});
-    console.log('クリックされたよ！')
     console.log(history.location.pathname);
   }
   // sx={{ flexGrow: 1, bgcolor: '#292929', display: 'flex', height: '100%' }}
   return (
-    <Box sx={{ flexGrow: 1, bgcolor: '#292929', display: 'flex', height: '100%' ,bgcolor: 'primary.main'}}>
+    <Box 　sx={{ flexGrow: 1, bgcolor: '#292929', display: 'flex', height: '100%' ,bgcolor: 'primary.main'}}>
       <Tabs
+        theme = {theme}
         orientation="vertical"
         variant="scrollable"
         value={value}
