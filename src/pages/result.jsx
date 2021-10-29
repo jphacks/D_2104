@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 import { Grid } from "@mui/material";
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import IconButton from '@mui/material/IconButton';
-import Divider from '@mui/material/Divider'
+import Divider from '@mui/material/Divider';
 
 // 次元の範囲を決め打ち。
 const MAX_DIMENSION = 200;
@@ -78,7 +78,7 @@ const Result = props => {
   //音声の再生周り
   function playSound() {
     return new Promise((resolve, reject) => {
-      player.play({ path: clickedNode.path }).then(() => {
+      player.play({ path: clickedNode.title }).then(() => {
         resolve();
       }).catch((error) => {
         console.error(error);
@@ -111,11 +111,7 @@ const Result = props => {
 
   const openFolder = () => {
     const { shell } = window.require('electron');
-    const os = window.require('os');
-    //一旦はどのosでも動くようにhomedirを開く。
-    shell.showItemInFolder(os.homedir());
-    //osによってファイルパスの扱いが違うけど、受け取ったパスをそのまま使って大丈夫そう
-    // shell.showItemInFolder("C:\\Users\\morit\\Pictures\\My Cloud Samples\\sample01.jpg");
+    shell.showItemInFolder(clickedNode.title);
   };
 
   useEffect(() => search(), []);
