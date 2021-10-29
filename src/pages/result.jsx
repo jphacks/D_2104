@@ -8,7 +8,8 @@ import { Grid } from "@mui/material";
 // import { fontSize } from '@mui/system';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import IconButton from '@mui/material/IconButton';
-import SvgIcon from '@mui/material/SvgIcon';
+// import SvgIcon from '@mui/material/SvgIcon';
+import Divider from '@mui/material/Divider'
 
 // 次元の範囲を決め打ち。
 const MAX_DIMENSION = 200;
@@ -26,9 +27,9 @@ const Result = props => {
 
   const [data, setData] = useState({ nodes: new vis.DataSet([]) });
 
-  
+
   //resut_pageに初回遷移時に一度だけ呼び出す
-  const search = () => { //初回だけ呼び出される
+  const search = () => {
     const response = addon.FindSimilarAudioFromFileMock(path)
 
     response.then((nodes) => {
@@ -48,9 +49,9 @@ const Result = props => {
     })
   };
 
-
   //再検索ボタンを押すと呼ばれる
-  const search_again = () => { //dataを更新→useEffectの依存値にdataを加える
+  //dataを更新→useEffectの依存値にdataを加える
+  const search_again = () => {
     const response = addon.FindSimilarAudioFromNodeMock([{}], [
       [{}]
     ]);
@@ -131,12 +132,11 @@ const Result = props => {
   //→ClickedNodeが更新→reactがいい感じにrenderしてくれる
   useEffect(() => draw(), [data]);
 
-
   return (
     <Grid container>
-      <Grid item sm={12} ml={2}>
+      <Grid item sm={12} mt={10}>
         <Link to="/serch" style={{ color: "#FF8C00" }}>× アセット選択フォームへ</Link></Grid>
-      <Grid item sm={6} id="network" mt={2} ml={2}></Grid>
+      <Grid item sm={6} id="network" mt={2}></Grid>
       <Grid item sm={5} id="info" mt={2} ml={2}>
         <Grid container alignItems="center">
           <Grid item>入力アセット</Grid>
@@ -150,7 +150,7 @@ const Result = props => {
             <ShowNodeData nodeData={rootNode} />
           </Grid>
 
-          <Grid item sm={12}><p>---------------</p></Grid>
+          <Grid item sm={12} mt={3} mb={3}><Divider color="#FFFFFF" /></Grid>
 
           <Grid item>選択アセット</Grid>
           <Grid item>
@@ -166,13 +166,13 @@ const Result = props => {
                 <ShowNodeData nodeData={clickedNode} />
               </Grid>
               <Grid item sm={6}>
-                <Button onClick={openFolder} style={{ background: "#FFFFFF", color: "#000000" }}>参照</Button>
+                <Button onClick={openFolder} size='small' style={{ size: "small", background: "#5500BB" }}>参照</Button>
               </Grid>
             </Grid>
           </Grid>
 
           <Grid item sm={12}>
-            <Button onClick={search_again} style={{ background: "#5500BB" }}>再検索</Button>
+            <Button onClick={search_again} style={{ background: "#5500BB", }}>再検索</Button>
           </Grid>
         </Grid>
       </Grid>
