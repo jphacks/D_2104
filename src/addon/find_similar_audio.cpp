@@ -1,5 +1,5 @@
 #include <filesystem>
-#include <stdio.h>
+#include <cstdio>
 #include "find_similar_audio.h"
 #include "rapidjson/filereadstream.h"
 #include "rapidjson/document.h"

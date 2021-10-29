@@ -1,7 +1,7 @@
 #include <fstream>
 #include <exception>
 #include <stdexcept>
-#include <stdio.h>
+#include <cstdio>
 #include "register.h"
 #include "rapidjson/filewritestream.h"
 #include "rapidjson/prettywriter.h"
@@ -15,7 +15,7 @@ void Register::WriteFeature(string& writePath, Feature& f){
 #ifdef _MSC_VER
   fopen_s(&fp,  writePath.c_str(), "wb");
 #else
-  fp = fopen(writePath.c_str(), "w");
+  fp = fopen(writePath.c_str(), "wb");
 #endif
     char writeBuffer[256];
     FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
@@ -77,8 +77,8 @@ void Register::Execute(){
     indexPath.concat("/index.vsc");
     ofstream fout;
     if(exists(indexPath)){
-        // TODO: 差分とって必要な分だけ更新．
-        for(const auto& p : directory_iterator(saveDir)){
+        // TODO: 差分とって必要な分だけ更新． 
+        for (const auto& p : directory_iterator(saveDir)){
             remove(p);
         }
         fout.open(indexPath.string());
