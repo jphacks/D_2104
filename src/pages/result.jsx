@@ -13,15 +13,21 @@ const MAX_DIMENSION = 200;
 
 const addon = window.require("bindings")("Visualize_Sounds_Core_addon.node");
 
+const md5 = window.require("md5");
+const idToRGBCode = (id) => {
+  const a = '#' + md5(id).slice(0, 6).toUpperCase();
+  console.log(a);
+  return a;
+}
+
 const ShowNodeData = ({ nodeData }) => {
   return (
-    <div>{nodeData?.title}</div>
+    <div style={{ height: "20px" }}>{nodeData?.title}</div>
   )
 };
-
 const ShowInputPath = ({ inputPath }) => {
   return (
-    <div>{inputPath}</div>
+    <div style={{ height: "20px" }}>{inputPath}</div>
   )
 };
 
@@ -45,7 +51,7 @@ const Result = props => {
       const adjustedData = reduceDimensions(nodesFeatures, 2);
       return nodes.map((node, idx) => {
         const id = node.dbPath.split("/").slice(-1)[0].split(".")[0]
-        return { id: id, x: adjustedData[0][idx], y: adjustedData[1][idx], title: node.path }
+        return { id: id, x: adjustedData[0][idx], y: adjustedData[1][idx], title: node.path, color: idToRGBCode(id) }
       })
     }).then((nodes) => {
       const dataSet = nodes = new vis.DataSet(nodes)
@@ -65,9 +71,9 @@ const Result = props => {
       })
 
       const adjustedData = reduceDimensions(nodesFeatures, 2);
-
       return nodes.map((node, idx) => {
-        return { id: idx, x: adjustedData[0][idx], y: adjustedData[1][idx], title: node.path }
+        const id = node.dbPath.split("/").slice(-1)[0].split(".")[0]
+        return { id: id, x: adjustedData[0][idx], y: adjustedData[1][idx], title: node.path, color: idToRGBCode(id) }
       })
     }).then((nodes) => {
       const dataSet = nodes = new vis.DataSet(nodes)
