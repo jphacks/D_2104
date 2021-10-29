@@ -107,7 +107,6 @@ web_modules/
 
 # Next.js build output
 .next
-out
 
 # Nuxt.js build / generate output
 .nuxt
@@ -147,3 +146,7 @@ dist
 
 build/
 tests/db/
+out/technology.aux
+out/technology.dvi
+out/technology.fdb_latexmk
+out/technology.fls
