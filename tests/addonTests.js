@@ -52,4 +52,8 @@ describe("addon", function() {
             done();
         }, e => done(e))
     });
+    it("RegisterSource", function(done) {
+        this.timeout(100000);
+        addon.RegisterSource("tests/sampling", "", "tests/db").then(() => { done(); }, e => done(e))
+    });
 });

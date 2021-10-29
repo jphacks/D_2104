@@ -146,3 +146,4 @@ dist
 .pnp.*
 
 build/
+tests/db/

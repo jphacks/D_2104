@@ -31,13 +31,18 @@ class FindSimilarAudioMock:  public Napi::AsyncWorker{
             for(auto i = 0; i < data.size(); ++i){
                 auto obj = Napi::Object::New(Env());
                 obj.Set("path", data[i].first);
+                auto dbPath = "C:/db/" + std::to_string(i) + ".vsc";
+                obj.Set("dbPath", dbPath);
                 auto vec = Napi::Array::New(Env(), data[i].second.size());
+                double d = 0;
                 for(auto  j = 0; j < data[i].second.size(); ++j){
                     auto element = Napi::Object::New(Env());
                     element.Set(uint32_t(data[i].second[j].first), Napi::Number::New(Env(), data[i].second[j].second));
+                    d += data[i].second[j].second * data[i].second[j].second;
                     vec[j] = element;
                 }
-                obj.Set("feature", vec);
+                obj.Set("coordinates", vec);
+                obj.Set("distance", Napi::Number::New(Env(), d));
                 ret[i] = obj;
             }
             deferred.Resolve(ret);
