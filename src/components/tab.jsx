@@ -98,7 +98,7 @@ export default function VerticalTabs(props) {
   const handleClick = (pathNum) => {
     const dict = [ "serch","/"];//ここの順番を逆にすることで一個前のやつをhistory.pushできるようにした．（タブが二つ以上あるとこの方法が使えないのでよくない）
     history.push({pathname:`${dict[pathNum]}`});
-    console.log(history.location.pathname,dict[pathNum]);
+    //console.log(history.location.pathname,dict[pathNum]);
   }
   // sx={{ flexGrow: 1, bgcolor: '#292929', display: 'flex', height: '100%' }}
   return (
