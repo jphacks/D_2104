@@ -39,6 +39,7 @@
         "@testing-library/user-event": "^12.1.10",
         "bindings": "^1.5.0",
         "cmake-js": "^6.2.1",
+        "md5": "^2.3.0",
         "node-addon-api": "^4.2.0",
         "node-wav-player": "^0.2.0",
         "pca-js": "^1.0.2",
