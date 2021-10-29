@@ -73,7 +73,9 @@
 * vis (グラフ表示)
 * くまちゃんさん側のC++関連
 
-＝＝＝＝＝＝＝＝＝＝アーキテクチャの画像入れよう＝＝＝＝＝＝＝＝＝＝
+
+![vscore_architecture](https://user-images.githubusercontent.com/51479912/139445955-4c0d859a-acc8-419f-b6e2-10040b9b7e16.png)
+
 
 #### デバイス
 * デスクトップ
