@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import useReactRouter from 'use-react-router';
 
-import './stylesheet.css'
+import '../pages/stylesheet.css'
 
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -123,7 +123,6 @@ export default function VerticalTabs(props) {
         <Tab label="設定" {...a11yProps(0)} />
         <Tab label="検索" {...a11yProps(1)} />
       </Tabs>
-      {props.children}
     </Box>
   );
 }
