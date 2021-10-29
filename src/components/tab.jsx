@@ -120,8 +120,8 @@ export default function VerticalTabs(props) {
             color: "#FFFFFF"
           }}}
       >
-        <Tab label="設定" {...a11yProps(0)} />
-        <Tab label="検索" {...a11yProps(1)} />
+        <Tab label="設定" {...a11yProps(0)} style={{color: "#ffffff"}}/>
+        <Tab label="検索" {...a11yProps(1)} style={{color: "#ffffff"}}/>
       </Tabs>
     </Box>
   );
