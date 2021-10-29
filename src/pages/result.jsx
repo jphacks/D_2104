@@ -50,7 +50,8 @@ const Result = props => {
 
       const adjustedData = reduceDimensions(nodesFeatures, 2);
       return nodes.map((node, idx) => {
-        const id = node.dbPath.split("/").slice(-1)[0].split(".")[0]
+        const path = window.require('path')
+        const id = path.basename(node.dbPath).split(".")[0]
         return { id: id, x: adjustedData[0][idx], y: adjustedData[1][idx], title: node.path, color: idToRGBCode(id) }
       })
     }).then((nodes) => {
@@ -72,7 +73,8 @@ const Result = props => {
 
       const adjustedData = reduceDimensions(nodesFeatures, 2);
       return nodes.map((node, idx) => {
-        const id = node.dbPath.split("/").slice(-1)[0].split(".")[0]
+        const path = window.require('path')
+        const id = path.basename(node.dbPath).split(".")[0]
         return { id: id, x: adjustedData[0][idx], y: adjustedData[1][idx], title: node.path, color: idToRGBCode(id) }
       })
     }).then((nodes) => {

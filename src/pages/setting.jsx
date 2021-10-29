@@ -19,7 +19,8 @@ const Setting = () => {
 
   const folderHandleChange = (e) => {
     const filePath = e.target.files[0];
-    const folderPath = filePath.path.split("/").slice(0, -1).join("/");
+    const path = window.require('path')
+    const folderPath = path.dirname(filePath.path)
     setFolderName(folderPath);
   };
 
