@@ -11,6 +11,12 @@ const url = require('url');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+electron.ipcMain.handle('get-user-data-path', async (event) => {
+    const path = electron.app.getPath('userData');
+    return path
+})
+
+
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({

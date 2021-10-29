@@ -8,6 +8,8 @@ import TreeItem from "@mui/lab/TreeItem";
 import SuccessAlert from "../components/SuccessAlert"
 
 
+const electron = window.require('electron');
+
 const addon = window.require("bindings")("Visualize_Sounds_Core_addon");
 
 const Setting = () => {
@@ -29,13 +31,18 @@ const Setting = () => {
   };
 
   const handleClick = () => {
-    const r = addon.RegisterSourceMock("", "", "");
-    r.then((resp) => {
-      const data = resp;
-      console.log(data);
-    }).then(() => {
-      setIsOpen(true)
-    })
+    electron.ipcRenderer.invoke('get-user-data-path')
+      .then(path=> {
+        console.log(path)
+        console.log(folderName)
+        const r = addon.RegisterSource(folderName, formatName, `${path}/hogehoge`);
+        r.then((resp) => {
+          const data = resp;
+          console.log(data);
+        }).then(() => {
+          setIsOpen(true)
+        })
+      })
   };
 
   return (
