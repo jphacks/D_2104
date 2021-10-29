@@ -73,7 +73,7 @@ const Setting = () => {
         </Grid>
       </form>
       <div style={{ color: "#fff" }}>
-        <Box my={3}>
+        <Box my={3} mr={5}>
           <TreeView
             aria-label="file system navigator"
             defaultCollapseIcon={<ExpandMoreIcon />}
