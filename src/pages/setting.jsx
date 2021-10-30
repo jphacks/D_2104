@@ -93,7 +93,7 @@ const Setting = () => {
             defaultExpandIcon={<ChevronRightIcon />}
           >
             <TreeItem nodeId="1" label="登録オプション">
-              <p>ファイル名条件(正規表現)</p>
+              <p>除外ファイル名条件(正規表現)</p>
               <input
                 type="text"
                 value={formatName}
