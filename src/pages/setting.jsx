@@ -105,7 +105,7 @@ const Setting = () => {
                   color: "#ffffff",
                 }}
               />
-              <p>例：*mp3</p>
+              <p>例：.wav$</p>
             </TreeItem>
           </TreeView>
         </Box>
