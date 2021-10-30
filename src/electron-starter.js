@@ -6,14 +6,46 @@ const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
 const url = require('url');
+const addon = require("bindings")("Visualize_Sounds_Core_addon");
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-electron.ipcMain.handle('get-user-data-path', async (event) => {
-    const path = electron.app.getPath('userData');
-    return path
+// electron.ipcMain.handle('get-user-data-path', async (event) => {
+//     const path = electron.app.getPath('userData');
+//     return path
+// })
+
+electron.ipcMain.handle('get-register-source', async (event, folderName, formatName) => {
+    const savePath = electron.app.getPath('userData');
+    console.log(folderName);
+    const r = addon.RegisterSource(folderName, formatName, savePath);
+    return r.then((resp) => {
+        const data = resp;
+        console.log(data);
+        return data
+    })
+})
+
+electron.ipcMain.handle('get-find-similar-audio-from-file', async (event, sourcePath) => {
+    const savePath = electron.app.getPath('userData');
+    const r = addon.FindSimilarAudioFromFile(sourcePath, savePath);
+    return r.then((resp) => {
+        const data = resp;
+        console.log(data);
+        return data
+    })
+})
+
+electron.ipcMain.handle('get-find-similar-audio-from-node', async (event, node) => {
+    const savePath = electron.app.getPath('userData');
+    const r = addon.FindSimilarAudioFromNode(node, savePath);
+    return r.then((resp) => {
+        const data = resp;
+        console.log(data);
+        return data
+    })
 })
 
 

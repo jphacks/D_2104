@@ -76,10 +76,14 @@ void Register::Execute(){
     filesystem::path indexPath = saveDir;
     indexPath.concat("/index.vsc");
     ofstream fout;
+    regex t(R"(.+\.vsc)");
     if(exists(indexPath)){
         // TODO: 差分とって必要な分だけ更新． 
         for (const auto& p : directory_iterator(saveDir)){
-            remove(p);
+            auto ps = p.path().string();
+            if(regex_match(ps, t)){
+                remove(p);
+            }
         }
         fout.open(indexPath.string());
     }else{

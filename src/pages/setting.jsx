@@ -32,18 +32,18 @@ const Setting = () => {
   };
 
   const handleClick = () => {
-    electron.ipcRenderer.invoke('get-user-data-path')
-      .then(path=> {
-        console.log(path)
+    // electron.ipcRenderer.invoke('get-user-data-path')
+    //   .then(path=> {
+    //     console.log(path)
         console.log(folderName)
-        const r = addon.RegisterSource(folderName, formatName, `${path}/hogehoge`);
-        r.then((resp) => {
-          const data = resp;
-          console.log(data);
-        }).then(() => {
-          setIsOpen(true)
-        })
-      })
+        electron.ipcRenderer.invoke('get-register-source', folderName, formatName)
+          .then((resp) => {
+            console.log(resp)
+            // resp.then(data => {
+            //   console.log(data)
+            // })
+          })
+      // })
   };
 
   return (
