@@ -8,6 +8,9 @@ const path = require('path');
 const url = require('url');
 const addon = require("bindings")("Visualize_Sounds_Core_addon");
 
+const AudioPlayer = addon.AudioPlayer;
+const audio = new AudioPlayer();
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -46,6 +49,17 @@ electron.ipcMain.handle('get-find-similar-audio-from-node', async (event, node) 
         console.log(data);
         return data
     })
+})
+
+electron.ipcMain.handle('audio-player-play', async (event, path) => {
+    console.log(audio);
+    audio.SetVolume(0.5);
+    return audio.Play(path);
+})
+
+electron.ipcMain.handle('audio-player-stop', async (event) => {
+    console.log(audio);
+    return audio.Stop();
 })
 
 
