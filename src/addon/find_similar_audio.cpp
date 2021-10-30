@@ -11,9 +11,9 @@ using namespace rapidjson;
 Feature FindSimilarAudio::LoadFeature(string& path){
     FILE* fp;
 #ifdef _MSC_VER
-  fopen_s(&fp,  path.c_str(), "wb");
+  fopen_s(&fp,  path.c_str(), "rb");
 #else
-  fp = fopen(path.c_str(), "w");
+  fp = fopen(path.c_str(), "r");
 #endif
     char readBuffer[256];
     FileReadStream is(fp, readBuffer, sizeof(readBuffer));

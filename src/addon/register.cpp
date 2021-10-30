@@ -15,7 +15,7 @@ void Register::WriteFeature(string& writePath, Feature& f){
 #ifdef _MSC_VER
   fopen_s(&fp,  writePath.c_str(), "wb");
 #else
-  fp = fopen(writePath.c_str(), "wb");
+  fp = fopen(writePath.c_str(), "w");
 #endif
     char writeBuffer[256];
     FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
