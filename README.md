@@ -1,6 +1,7 @@
 # Visualize Sounds Core
 
-[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2021/07/JPHACKS2021_ogp.jpg)](https://www.youtube.com/watch?v=LUPQFB4QyVo)
+[![Visualize-Sounds-Core](https://user-images.githubusercontent.com/51479912/139518776-5df3354d-ab53-4bb3-b28c-45110441f19a.png)](https://www.youtube.com/watch?v=We2wmoMupbk)
+
 
 ## 製品概要
 
