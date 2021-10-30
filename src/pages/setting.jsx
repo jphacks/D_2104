@@ -32,18 +32,17 @@ const Setting = () => {
   };
 
   const handleClick = () => {
-    // electron.ipcRenderer.invoke('get-user-data-path')
-    //   .then(path=> {
-    //     console.log(path)
-        console.log(folderName)
-        electron.ipcRenderer.invoke('get-register-source', folderName, formatName)
-          .then((resp) => {
-            console.log(resp)
-            // resp.then(data => {
-            //   console.log(data)
-            // })
-          })
-      // })
+    const r = addon.RegisterSourceMock("", "", "");
+    return r.then((resp) => {
+        const data = resp;
+        console.log(data);
+        setIsOpen(true)
+        return data
+    })
+    // electron.ipcRenderer.invoke('get-register-source', folderName, formatName)
+    //   .then((resp) => {
+    //     console.log(resp)
+    //   })
   };
 
   return (

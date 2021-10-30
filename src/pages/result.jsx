@@ -5,8 +5,11 @@ import { parseFeature, reduceDimensions } from '../lib/nodesParser';
 import { Button } from "@mui/material";
 import { Grid } from "@mui/material";
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import StopCircleIcon from '@mui/icons-material/StopCircle';
 import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
+
+const electron = window.require('electron');
 
 // 次元の範囲を決め打ち。
 const MAX_DIMENSION = 200;
@@ -85,15 +88,44 @@ const Result = props => {
   };
 
   //音声の再生周り
+  // const playSound = (path) => {
+  //   return new Promise((resolve, reject) => {
+  //     player.play({ path: path }).then(() => {
+  //       resolve();
+  //     }).catch((error) => {
+  //       console.error(error);
+  //       reject(error);
+  //     });
+  //   });
+  // }
+
+  // const [isSoundOn, setIsSoundOn] = useState(false)
+  // const AudioPlayer = addon.AudioPlayer;
+  // const audio = new AudioPlayer();
+
   const playSound = (path) => {
-    return new Promise((resolve, reject) => {
-      player.play({ path: path }).then(() => {
-        resolve();
-      }).catch((error) => {
-        console.error(error);
-        reject(error);
-      });
-    });
+    electron.ipcRenderer.invoke('audio-player-play', path)
+      .then((resp) => {
+        console.log(resp)
+        // resp.then(data => {
+        //   console.log(data)
+        // })
+      })
+    // const d = audio.SetVolume(0.5);
+    // const play = audio.Play(path);
+    // console.log(play)
+    // console.log(audio)
+  }
+
+  const stopSound = () => {
+    // audio.Stop();
+    electron.ipcRenderer.invoke('audio-player-stop')
+      .then((resp) => {
+        console.log(resp)
+        // resp.then(data => {
+        //   console.log(data)
+        // })
+      })
   }
 
   const options = {
@@ -133,11 +165,16 @@ const Result = props => {
       <Grid item sm={5} id="info" mt={2} ml={2}>
         <Grid container alignItems="center">
           <Grid item>入力アセット</Grid>
-          <Grid item>
-            <IconButton aria-label="delete" onClick={() => playSound(inputPath)} >
+            <Grid item>
+            <IconButton aria-label="delete" onClick={() => {playSound(inputPath);}} >
               <PlayCircleFilledIcon color="primary" />
             </IconButton>
-          </Grid>
+          </Grid> 
+          <Grid item>
+          <IconButton aria-label="delete" onClick={() => stopSound()} >
+            <StopCircleIcon color="primary" />
+          </IconButton>
+        </Grid>
 
           <Grid item sm={12}>
             <ShowInputPath inputPath={inputPath} />
@@ -146,11 +183,16 @@ const Result = props => {
           <Grid item sm={12} mt={3} mb={1}><Divider color="#FFFFFF" /></Grid>
 
           <Grid item>選択アセット</Grid>
-          <Grid item>
-            <IconButton aria-label="delete" onClick={() => playSound(clickedNode?.title)} >
+            <Grid item>
+            <IconButton aria-label="delete" onClick={() => {playSound("/Users/horisho/jack/products/D_2104/tests/sampling/1EX00020.WAV")}} >
               <PlayCircleFilledIcon color="primary" />
             </IconButton>
-          </Grid>
+          </Grid> 
+          <Grid item>
+          <IconButton aria-label="delete" onClick={() => stopSound()} >
+            <StopCircleIcon color="primary" />
+          </IconButton>
+        </Grid>
 
           <Grid item sm={12}>
             <Grid container alignItems="center">
